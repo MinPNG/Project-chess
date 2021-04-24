@@ -1,5 +1,5 @@
 #include"interface.h"
-
+/* Draw an ugly board*/
 void affichage_jeu(echiquier grid){
 
     for (int i = 0; i < _SIZE; i++){
@@ -25,6 +25,7 @@ void affichage_jeu(echiquier grid){
 
 }
 
+/*Draw each piece*/
 void init_dessins_pieces(unsigned char d[][HAUTEUR_CASE][LARGEUR_CASE])
 {
     int i,j;
@@ -271,15 +272,9 @@ void init_dessins_pieces(unsigned char d[][HAUTEUR_CASE][LARGEUR_CASE])
 
 
 }
-void init_possible(){
-    int i,j;
-    for(i = 0; i < _SIZE; i++){
-        for(j = 0; j < _SIZE; j++){
-            possible[i][j] = false;
-        }
-    }
-}
 
+
+/*Design board with possible moves*/
 void afficher_grille(piece* grid[][_SIZE])
 {
 
@@ -377,12 +372,11 @@ deplacement make_deplacement(int col1, int lig1, int col2, int lig2){
     d.arrivee.ligne  = lig2;
     return d;
 }
-void check_danger(echiquier grid){
 
-}
 void add_possible(int lig, int col){
     possible[lig][col] = true;
 }
+
 void pion_possible(echiquier grid, int lig, int col){
     int i;
     //PION
@@ -760,6 +754,14 @@ void move_possible(echiquier grid, int lig, int col){
     fou_possible(grid,lig,col);
     dame_possible(grid,lig,col);
     roi_possible(grid,lig,col);
+}
+void check_mate(echiquier grid){
+    int i,j;
+    for (i=0;i<_SIZE;i++){
+        for (j=0;j<_SIZE;j++){
+            move_possible(grid,i,j);
+        }
+    }
 }
 
 deplacement saisie_deplacement(echiquier grid,couleur player_color)
