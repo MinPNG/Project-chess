@@ -3,10 +3,14 @@
 
 void init_jeu(echiquier grid)
 {
+    /* For loop pivot runner */
     int i,j;
+
+    /* Init arrays of pieces */
     piece*blancs[2*_SIZE];
     piece*noirs[2*_SIZE];
 
+    /* Fill grid with NULL*/
     for(i=0;i<_SIZE;i++)
         for(j=0;j<_SIZE;j++)
             grid[i][j]=NULL;
@@ -17,8 +21,8 @@ void init_jeu(echiquier grid)
         blancs[i]=malloc(sizeof(piece));
         blancs[i]->color=BLANC;
     }
-
-
+    
+    /* Add white pieces */
     blancs[0]->type=TOUR;
     blancs[1]->type=CAVALIER;
     blancs[2]->type=FOU;
@@ -34,13 +38,15 @@ void init_jeu(echiquier grid)
         grid[_SIZE-1][j]=blancs[j];
         grid[_SIZE-2][j]=blancs[j+_SIZE];
     }
-    //BLACK //
-        /** Allocation des noirs **/
+
+    /** Allocation des noirs **/
     for(i=0;i<2*_SIZE;i++)
     {
         noirs[i]=malloc(sizeof(piece));
         noirs[i]->color=NOIR;
     }
+
+    /* Add black pieces */
     noirs[0]->type=TOUR;
     noirs[1]->type=CAVALIER;
     noirs[2]->type=FOU;

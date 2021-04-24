@@ -4,23 +4,44 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
+/* Chess board size*/
 #define _SIZE 8
 
-typedef enum{PION,CAVALIER,FOU,TOUR,ROI,DAME}type_piece;
-typedef enum{BLANC,NOIR}couleur;
+/* Enums */
 
+/* Pieces type */
+typedef enum{
+    PION,
+    CAVALIER,
+    FOU,
+    TOUR,
+    ROI,
+    DAME
+} type_piece;
+
+/* Colors of pieces */
+typedef enum{ 
+    BLANC,
+    NOIR 
+} couleur;
+
+/* Models */
+
+/* Position of pieces */
 typedef struct
 {
     int ligne;
     int colonne;
-}position;
+} position;
 
+/* Piece */
 typedef struct
 {
     couleur color;
     type_piece type;
-}piece;
+} piece;
 
 
 typedef struct
