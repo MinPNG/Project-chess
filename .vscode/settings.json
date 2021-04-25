@@ -3,5 +3,6 @@
         "interface.h": "c",
         "stdbool.h": "c",
         "jeu.h": "c"
-    }
+    },
+    "C_Cpp.intelliSenseEngineFallback": "Enabled"
 }
