@@ -354,7 +354,7 @@ void afficher_grille(piece* grid[][_SIZE])
                         MyAttrib=MyAttrib|FOREGROUND_RED;
                     }
                 }
-                    
+
                 SetConsoleTextAttribute(hConsoleOut,MyAttrib);
                 printf("%c",dessin_piece[grid[i/HAUTEUR_CASE][j/LARGEUR_CASE]->type][i%HAUTEUR_CASE][j%LARGEUR_CASE]);
             }
@@ -780,6 +780,7 @@ void move_possible(echiquier grid, int lig, int col){
 void add_mate(int lig,int col){
     mate[lig][col]=true;
 }
+
 void check_mate(echiquier grid){
     int i,j;
     for (i=0;i<_SIZE;i++){
