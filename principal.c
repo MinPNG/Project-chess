@@ -26,34 +26,38 @@ int main()
     
     /* TODO Check possible */
 
-    // -> state changed
-
     printf("\n\n\n\n\n\n \t\tMETTRE EN PLEIN ECRAN PUIS APPUYER SUR UNE TOUCHE\n");getchar();
     
     
-    // afficher_grille(grid);
+    afficher_grille(grid);
 
     // /* Start playing */
-    // int turn = 1;
-    // bool ok  = true;
-    // while(ok){
-    //     printf("Tours: %d, Joueur: ",turn);
-    //     deplacement d;
-    //     if(turn % 2 != 0){
-    //         printf("BLANC \n");
-    //         d = saisie_deplacement(grid, player1);
-    //     }
-    //     else{
-    //         printf("NOIR \n");
-    //         d = saisie_deplacement(grid, player2);
-    //     }
-    //     turn++;
-    //     -> state changed
-    //     deplacer_piece(grid,d);
-    //     init_possible();
-    //     afficher_grille(grid);
-
-    // }
-
+    jeu_commence(grid,BLANC);
   return 0;
+}
+
+
+void jeu_commence(echiquier grid,couleur color){
+    int turn=1;
+    bool win=false;
+    afficher_grille(grid);
+    while (!win){
+         printf("Tours: %d, Joueur: ",turn);
+         deplacement d;
+         if(color==BLANC){
+             printf("BLANC \n");
+             d = saisie_deplacement(grid,color);
+             color = NOIR;
+         }
+         else{
+            printf("NOIR \n");
+            d = saisie_deplacement(grid,color);
+            color = BLANC;
+         }
+         turn++;    
+         deplacer_piece(grid,d);
+         init_possible();
+         afficher_grille(grid);
+    }
+
 }

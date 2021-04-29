@@ -273,6 +273,14 @@ void init_dessins_pieces(unsigned char d[][HAUTEUR_CASE][LARGEUR_CASE])
 
 }
 
+void init_possible(){
+    int i,j;
+    for(i = 0; i < _SIZE; i++){
+        for(j = 0; j < _SIZE; j++){
+            possible[i][j] = false;
+        }
+    }
+}
 
 /*Design board with possible moves*/
 void afficher_grille(piece* grid[][_SIZE])

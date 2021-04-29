@@ -62,8 +62,6 @@ void init_jeu(echiquier grid)
             grid[i][j]=noirs[j+_SIZE*i];
 
 }
-
-
 void deplacer_piece(echiquier grid,deplacement d)
 {
     if(grid[d.arrivee.ligne][d.arrivee.colonne]!=NULL)
