@@ -658,9 +658,6 @@ void dame_possible(echiquier grid, int lig, int col){
             }
             else if(grid[lig][i]->color != grid[lig][col]->color){
                 add_possible(lig,i);
-                if(grid[lig][i]->type == ROI){
-                    //danger = true;
-                }
                 break;
             }
             else{
@@ -730,31 +727,31 @@ void dame_possible(echiquier grid, int lig, int col){
 void roi_possible(echiquier grid,int lig,int col){
     if (grid[lig][col]->type == ROI){
         if (lig < 8){
-            if (col > 0 && (grid[lig+1][col-1]== NULL || grid[lig+1][col-1]->color != grid[lig][col])){
+            if (col > 0 && (grid[lig+1][col-1]== NULL || grid[lig+1][col-1]->color != grid[lig][col]->color)){
                 add_possible(lig+1,col-1);
             }
-            if (grid[lig+1][col]== NULL || grid[lig+1][col]->color != grid[lig][col]){
+            if (grid[lig+1][col]== NULL || grid[lig+1][col]->color != grid[lig][col]->color){
                 add_possible(lig+1,col);
             }
-            if (col < 8 && (grid[lig+1][col+1]== NULL || grid[lig+1][col+1]->color != grid[lig][col])){
+            if (col < 8 && (grid[lig+1][col+1]== NULL || grid[lig+1][col+1]->color != grid[lig][col]->color)){
                 add_possible(lig+1,col+1);
             }
         }
         if (lig > 0){
-            if (col > 0 && (grid[lig-1][col-1]== NULL || grid[lig-1][col-1]->color != grid[lig][col])){
+            if (col > 0 && (grid[lig-1][col-1]== NULL || grid[lig-1][col-1]->color != grid[lig][col]->color)){
                 add_possible(lig+1,col-1);
             }
-            if (grid[lig-1][col]== NULL || grid[lig-1][col]->color != grid[lig][col]){
+            if (grid[lig-1][col]== NULL || grid[lig-1][col]->color != grid[lig][col]->color){
                 add_possible(lig+1,col);
             }
-            if (col < 8 && (grid[lig-1][col+1]== NULL || grid[lig-1][col+1]->color != grid[lig][col])){
+            if (col < 8 && (grid[lig-1][col+1]== NULL || grid[lig-1][col+1]->color != grid[lig][col]->color)){
                 add_possible(lig-1,col+1);
             }
         }
-        if (col > 0 && (grid[lig][col-1]== NULL || grid[lig][col-1]->color != grid[lig][col])){
+        if (col > 0 && (grid[lig][col-1]== NULL || grid[lig][col-1]->color != grid[lig][col]->color)){
             add_possible(lig+1,col-1);
         }
-        if (col < 8 && (grid[lig][col+1]== NULL || grid[lig][col+1]->color != grid[lig][col])){
+        if (col < 8 && (grid[lig][col+1]== NULL || grid[lig][col+1]->color != grid[lig][col]->color)){
             add_possible(lig,col+1);
         }
     }
@@ -773,8 +770,9 @@ void add_mate(int lig,int col){
     mate[lig][col]=true;
 }
 
-void check_mate(echiquier grid,couleur color){
-    int i,j;
+int check_mate(echiquier grid,couleur color){
+    int i,j,check=0;
+    init_mate();
     for (i = 0;i < _SIZE;i++){
         for (j = 0;j < _SIZE;j++){
             if (grid[i][j] != NULL){
@@ -790,21 +788,23 @@ void check_mate(echiquier grid,couleur color){
                 if (grid[i][j]->type==ROI && grid[i][j]->color==color && possible[i][j])
                 {
                     add_mate(i,j);
+                    check++;
                 }
             }
         }
     }
     init_possible();
+    return check;
 }
 
 deplacement saisie_deplacement(echiquier grid,couleur player_color)
 {
 
-    int ok = 0;
+    int ok = 1;
     deplacement d1;
     char col,col2;
     int lig,lig2;
-    while(ok==0)
+    while(ok==1)
     {
         scanf(" %c%i",&col,&lig);
         if(col>'H' || col < 'A' || lig <1 || lig>8 )
@@ -829,7 +829,13 @@ deplacement saisie_deplacement(echiquier grid,couleur player_color)
                 else
                 {
                     d1 = get_deplacement(col,lig,col2,lig2);
-                    ok=1;
+                    deplacer_piece(grid,d1);
+                    ok = check_mate(grid,player_color);
+                    if (ok == 1){
+                        d1 = get_deplacement(col2,lig2,col,lig);
+                        deplacer_piece(grid,d1);
+                        printf("Echoue. Recommencez\n");
+                    }
                 }
             }
         }

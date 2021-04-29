@@ -55,7 +55,6 @@ void jeu_commence(echiquier grid,couleur color){
             color = BLANC;
         }
         turn++;
-        deplacer_piece(grid,d);
         init_possible();
         init_mate();
         check_mate(grid,color);
