@@ -512,7 +512,6 @@ void tour_possible(echiquier grid, int lig, int col){
             }
             else if(grid[lig][i]->color != grid[lig][col]->color){
                 add_possible(lig,i);
-                }
                 break;
             }
             else{
