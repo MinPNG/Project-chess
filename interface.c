@@ -281,6 +281,14 @@ void init_possible(){
         }
     }
 }
+void init_mate(){
+    int i,j;
+    for(i = 0; i < _SIZE; i++){
+        for(j = 0;j < _SIZE; j++){
+            mate[i][j] = false;
+        }
+    }
+}
 
 /*Design board with possible moves*/
 void afficher_grille(piece* grid[][_SIZE])
@@ -319,7 +327,6 @@ void afficher_grille(piece* grid[][_SIZE])
             }
             if(possible[i/HAUTEUR_CASE][j/LARGEUR_CASE]){
                 if(grid[i/HAUTEUR_CASE][j/LARGEUR_CASE]==NULL){
-                    //printf("%d %d",i/HAUTEUR_CASE,j/HAUTEUR_CASE);
                     MyAttrib=BACKGROUND_GREEN|BACKGROUND_INTENSITY;
                 }
                 else{
@@ -334,10 +341,20 @@ void afficher_grille(piece* grid[][_SIZE])
             else
             {
                 if(grid[i/HAUTEUR_CASE][j/LARGEUR_CASE]->color==BLANC){
-                    MyAttrib=MyAttrib|FOREGROUND_RED|FOREGROUND_GREEN;
+                    if(mate[i/HAUTEUR_CASE][j/LARGEUR_CASE]==true){
+                        MyAttrib=BACKGROUND_RED;
+                    }else{
+                        MyAttrib=MyAttrib|FOREGROUND_RED|FOREGROUND_GREEN;
+                    }
                 }
-                else
-                    MyAttrib=MyAttrib|FOREGROUND_RED;
+                else{
+                    if(mate[i/HAUTEUR_CASE][j/LARGEUR_CASE]==true){
+                        MyAttrib=BACKGROUND_RED;
+                    }else{
+                        MyAttrib=MyAttrib|FOREGROUND_RED;
+                    }
+                }
+                    
                 SetConsoleTextAttribute(hConsoleOut,MyAttrib);
                 printf("%c",dessin_piece[grid[i/HAUTEUR_CASE][j/LARGEUR_CASE]->type][i%HAUTEUR_CASE][j%LARGEUR_CASE]);
             }
@@ -495,8 +512,6 @@ void tour_possible(echiquier grid, int lig, int col){
             }
             else if(grid[lig][i]->color != grid[lig][col]->color){
                 add_possible(lig,i);
-                if(grid[lig][i]->type == ROI){
-                    //danger = true;
                 }
                 break;
             }
@@ -518,7 +533,6 @@ void cavalier_possible(echiquier grid, int lig, int col){
         }
         if(lig < 6){
             if(col < 7 && (grid[lig+2][col+1] == NULL || grid[lig+2][col+1]->color != grid[lig][col]->color)){
-                //printf("%d %d",lig+2,col+1);
                 add_possible(lig+2,col+1);
             }
             if(col > 0 && (grid[lig+2][col-1] == NULL || grid[lig+2][col-1]->color != grid[lig][col]->color)){
@@ -763,6 +777,10 @@ void move_possible(echiquier grid, int lig, int col){
     dame_possible(grid,lig,col);
     roi_possible(grid,lig,col);
 }
+
+void add_mate(int lig,int col){
+    mate[lig][col]=true;
+}
 void check_mate(echiquier grid){
     int i,j;
     for (i=0;i<_SIZE;i++){
@@ -788,8 +806,6 @@ deplacement saisie_deplacement(echiquier grid,couleur player_color)
         {
             d1.depart.colonne=col-'A';
             d1.depart.ligne = _SIZE-lig;
-            //printf("%d %d \n",d1.depart.colonne,d1.depart.ligne);
-            //printf("%d %d",(int)grid[d1.depart.ligne][d1.depart.colonne]->type,(int)grid[d1.depart.ligne][d1.depart.colonne]->color);
             if(grid[d1.depart.ligne][d1.depart.colonne]==NULL)
                 printf("Pas de piece ici. Recommencez\n");
             else if (grid[d1.depart.ligne][d1.depart.colonne]->color!= player_color)

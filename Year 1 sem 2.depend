@@ -55,10 +55,10 @@
 	"jeu.h"
 	<stdbool.h>
 
-1619691078 source:c:\users\dell\desktop\project-chess\interface.c
+1619693680 source:c:\users\dell\desktop\project-chess\interface.c
 	"interface.h"
 
-1619691078 c:\users\dell\desktop\project-chess\interface.h
+1619693315 c:\users\dell\desktop\project-chess\interface.h
 	"data.h"
 	"windows.h"
 	"jeu.h"
@@ -72,10 +72,10 @@
 1619691078 c:\users\dell\desktop\project-chess\jeu.h
 	"data.h"
 
-1619691813 source:c:\users\dell\desktop\project-chess\jeu.c
+1619692454 source:c:\users\dell\desktop\project-chess\jeu.c
 	"jeu.h"
 
-1619691871 source:c:\users\dell\desktop\project-chess\principal.c
+1619693932 source:c:\users\dell\desktop\project-chess\principal.c
 	"data.h"
 	"interface.h"
 	"jeu.h"

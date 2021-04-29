@@ -57,6 +57,8 @@ void jeu_commence(echiquier grid,couleur color){
          turn++;    
          deplacer_piece(grid,d);
          init_possible();
+         init_mate();
+         add_mate(0,4);
          afficher_grille(grid);
     }
 
