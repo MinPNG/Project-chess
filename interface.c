@@ -325,7 +325,7 @@ void afficher_grille(piece* grid[][_SIZE])
                 else
                     MyAttrib=BACKGROUND_GREEN|BACKGROUND_RED|BACKGROUND_BLUE;
             }
-            if(possible[i/HAUTEUR_CASE][j/LARGEUR_CASE]){
+            if(possible[i/HAUTEUR_CASE][j/LARGEUR_CASE] || mate[i/HAUTEUR_CASE][j/LARGEUR_CASE]){
                 if(grid[i/HAUTEUR_CASE][j/LARGEUR_CASE]==NULL){
                     MyAttrib=BACKGROUND_GREEN|BACKGROUND_INTENSITY;
                 }
@@ -341,18 +341,10 @@ void afficher_grille(piece* grid[][_SIZE])
             else
             {
                 if(grid[i/HAUTEUR_CASE][j/LARGEUR_CASE]->color==BLANC){
-                    if(mate[i/HAUTEUR_CASE][j/LARGEUR_CASE]==true){
-                        MyAttrib=BACKGROUND_RED;
-                    }else{
                         MyAttrib=MyAttrib|FOREGROUND_RED|FOREGROUND_GREEN;
-                    }
                 }
                 else{
-                    if(mate[i/HAUTEUR_CASE][j/LARGEUR_CASE]==true){
-                        MyAttrib=BACKGROUND_RED;
-                    }else{
                         MyAttrib=MyAttrib|FOREGROUND_RED;
-                    }
                 }
 
                 SetConsoleTextAttribute(hConsoleOut,MyAttrib);
@@ -781,13 +773,28 @@ void add_mate(int lig,int col){
     mate[lig][col]=true;
 }
 
-void check_mate(echiquier grid){
+void check_mate(echiquier grid,couleur color){
     int i,j;
-    for (i=0;i<_SIZE;i++){
-        for (j=0;j<_SIZE;j++){
-            move_possible(grid,i,j);
+    for (i = 0;i < _SIZE;i++){
+        for (j = 0;j < _SIZE;j++){
+            if (grid[i][j] != NULL){
+                if (grid[i][j]->color != color){
+                    move_possible(grid,i,j);
+                }
+            }
         }
     }
+    for (i = 0;i < _SIZE; i++){
+        for (j = 0;j < _SIZE;j++){
+            if (grid[i][j] != NULL){
+                if (grid[i][j]->type==ROI && grid[i][j]->color==color && possible[i][j])
+                {
+                    add_mate(i,j);
+                }
+            }
+        }
+    }
+    init_possible();
 }
 
 deplacement saisie_deplacement(echiquier grid,couleur player_color)

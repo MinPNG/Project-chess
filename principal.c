@@ -23,12 +23,12 @@ int main()
 
     /* Draw current board state*/
     afficher_grille(grid);
-    
+
     /* TODO Check possible */
 
     printf("\n\n\n\n\n\n \t\tMETTRE EN PLEIN ECRAN PUIS APPUYER SUR UNE TOUCHE\n");getchar();
-    
-    
+
+
     afficher_grille(grid);
 
     // /* Start playing */
@@ -42,24 +42,24 @@ void jeu_commence(echiquier grid,couleur color){
     bool win=false;
     afficher_grille(grid);
     while (!win){
-         printf("Tours: %d, Joueur: ",turn);
-         deplacement d;
-         if(color==BLANC){
-             printf("BLANC \n");
-             d = saisie_deplacement(grid,color);
-             color = NOIR;
-         }
-         else{
+        printf("Tours: %d, Joueur: ",turn);
+        deplacement d;
+        if(color==BLANC){
+            printf("BLANC \n");
+            d = saisie_deplacement(grid,color);
+            color = NOIR;
+        }
+        else{
             printf("NOIR \n");
             d = saisie_deplacement(grid,color);
             color = BLANC;
-         }
-         turn++;    
-         deplacer_piece(grid,d);
-         init_possible();
-         init_mate();
-         add_mate(0,4);
-         afficher_grille(grid);
+        }
+        turn++;
+        deplacer_piece(grid,d);
+        init_possible();
+        init_mate();
+        check_mate(grid,color);
+        afficher_grille(grid);
     }
 
 }
